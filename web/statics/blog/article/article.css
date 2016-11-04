@@ -1,0 +1,25 @@
+.intro-header {
+    background: url('/statics/blog/images/home-bg.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+/*标签显示样式*/
+.tags a, .tags .tag {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 999em;
+    padding: 0 10px;
+    color: #fff;
+    line-height: 24px;
+    font-size: 12px;
+    text-decoration: none;
+    margin: 0 1px;
+    margin-bottom: 6px;
+}
+/*标签被鼠标激活样式*/
+.tags a:hover, .tags .tag:hover, .tags a:active, .tags .tag:active {
+    color: #fff;
+    border-color: #fff;
+    background-color: rgba(255,255,255,.4);
+    text-decoration: none;
+}

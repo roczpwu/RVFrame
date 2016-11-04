@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config />
+
+    <!-- 加载数据库属性配置文件 -->
+    <context:property-placeholder location="classpath:db.properties" />
+
+
+    <!--DAO bean-->
+    <bean id="userDAO" class="com.roc.core.user.UserDAO"/>
+    <bean id="articleDAO" class="org.roc.wim.blog.article.ArticleDAO"/>
+
+    <!--BL bean-->
+    <bean id="userBL" class="com.roc.core.user.UserBL"/>
+    <bean id="articleBL" class="org.roc.wim.blog.article.ArticleBL"/>
+
+    <!--action bean-->
+    <bean id="testAction" class="org.roc.wim.test.TestAction" scope="prototype">
+        <property name="message" value="hello rocwu"/>
+    </bean>
+    <bean id="indexAction" class="org.roc.wim.blog.index.IndexAction" scope="prototype"/>
+    <bean id="loginAction" class="org.roc.wim.blog.login.LoginAction" scope="prototype"/>
+    <bean id="registerAction" class="org.roc.wim.blog.login.RegisterAction" scope="prototype"/>
+    <bean id="articleAction" class="org.roc.wim.blog.article.ArticleAction" scope="prototype"/>
+    <bean id="imgUploadAction" class="org.roc.wim.blog.article.ImgUploadAction" scope="prototype"/>
+
+</beans>

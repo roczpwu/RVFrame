@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.objectFactory" value="spring" />
+
+    <package name="component" namespace="/" extends="struts-default">
+        <action name="captcha" class="com.roc.components.captcha.CaptchaAction" method="generate"/>
+        <action name="captchaVerify" class="com.roc.components.captcha.CaptchaAction" method="verify"/>
+    </package>
+
+    <package name="default" namespace="/" extends="struts-default">
+
+        <interceptors>
+            <interceptor name="loginInteceptor" class="com.roc.core.user.LoginInterceptor"/>
+            <interceptor name="captchaInteceptor" class="com.roc.components.captcha.CaptchaAction"/>
+            <interceptor-stack name="loginStack">
+                <interceptor-ref name="loginInteceptor">
+                    <param name="excludeMethods">index,loginPage,login</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <global-results>
+            <result name="login">/WEB-INF/blog/login/login.jsp</result>
+            <result name = "index" type="redirectAction">index</result>
+        </global-results>
+
+        <!--首页-->
+        <action name="index" class="indexAction">
+            <result name="success">/WEB-INF/blog/index.jsp</result>
+        </action>
+        <!--注册页-->
+        <action name="registerPage" class="registerAction" method="registerPage">
+            <result name="success">/WEB-INF/blog/login/register.jsp</result>
+        </action>
+        <!--注册-->
+        <action name="register" class="registerAction" method="register">
+            <interceptor-ref name="captchaInteceptor"/>
+            <result name="input">/WEB-INF/blog/login/register.jsp</result>
+        </action>
+        <!--登录页-->
+        <action name="loginPage" class="loginAction" method="loginPage">
+            <result name="success">/WEB-INF/blog/login/login.jsp</result>
+        </action>
+        <!--登录-->
+        <action name="login" class="loginAction" method="login">
+            <result name="success">/WEB-INF/blog/login/login.jsp</result>
+            <result name="input">/WEB-INF/blog/login/login.jsp</result>
+        </action>
+        <!--登出-->
+        <action name="logout" class="loginAction" method="logout">
+            <interceptor-ref name="loginStack"/>
+            <result name = "success" type="redirectAction">index</result>
+        </action>
+        <!--文章查看页-->
+        <action name="blogView" class="articleAction" method="view">
+            <result name = "success">/WEB-INF/blog/article/articleView.jsp</result>
+        </action>
+        <!--文章编辑页-->
+        <action name="blogEditPage" class="articleAction" method="editPage">
+            <interceptor-ref name="loginStack"/>
+            <result name = "success">/WEB-INF/blog/article/articleEdit.jsp</result>
+        </action>
+        <!--发布/更新文章-->
+        <action name="saveArticle" class="articleAction" method="save">
+            <interceptor-ref name="loginStack"/>
+            <result name = "success" type="chain">blogView</result>
+        </action>
+        <!--博客图片上传(ajax)-->
+        <action name="uploadArticleImg" class="imgUploadAction" method="upload">
+            <interceptor-ref name="loginStack"/>
+        </action>
+        <!--博客图片读取(ajax)-->
+        <action name="displayArticleImg" class="imgUploadAction" method="display">
+            <interceptor-ref name="loginStack"/>
+        </action>
+    </package>
+
+    <!-- 测试  BEGIN -->
+    <package name="package-test" namespace="/" extends="struts-default">
+        <action name="test" class="testAction">
+            <result name="success" >/test/test.jsp</result>
+            <result name="input" >/test/test1.jsp</result>
+        </action>
+    </package>
+    <!-- 测试  END -->
+</struts>

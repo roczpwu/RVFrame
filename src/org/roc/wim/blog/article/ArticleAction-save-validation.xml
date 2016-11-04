@@ -1,0 +1,22 @@
+<!DOCTYPE validators PUBLIC
+                "-//Apache Struts//XWork Validator 1.0.2//EN"
+                "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+    <field name="article.main_title">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>主标题不得为空</message>
+        </field-validator>
+        <field-validator type="stringlength">
+            <param name="maxLength">20</param>
+            <message>主标题长度不能超过20</message>
+        </field-validator>
+    </field>
+    <field name="article.content">
+        <field-validator type="stringlength">
+            <param name="maxLength">10</param>
+            <message>正文不能为空</message>
+        </field-validator>
+    </field>
+</validators>
