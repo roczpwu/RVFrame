@@ -2,3 +2,13 @@
     background: url('/statics/blog/images/home-bg.jpg') no-repeat center center;
     background-size: cover;
 }
+
+.about-header {
+    background: url('/statics/blog/images/about-bg.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.contact {
+    background: url('/statics/blog/images/contact-bg.jpg') no-repeat center center;
+    background-size: cover;
+}

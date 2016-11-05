@@ -37,8 +37,8 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/index.action">首页</a></li>
-                <li><a href="http://www.baidu.com">关于我们</a></li>
-                <li><a href="http://www.baidu.com">联系我们</a></li>
+                <li><a href="/about.action">关于我们</a></li>
+                <li><a href="/contactPage.action">联系我们</a></li>
                 <%if (UserManager.isGuest()) { %>
                 <li><a href="/registerPage.action">注册</a></li>
                 <li><a href="/loginPage.action">登录</a></li>

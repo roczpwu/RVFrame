@@ -1298,7 +1298,7 @@ public class TimeUtil {
     }
 
     /**
-     * wzp.newsML.test
+     * wzp.newsML.MailSample
      *
      * @param args
      */

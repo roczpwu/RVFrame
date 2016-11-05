@@ -205,7 +205,7 @@ public class NumberUtil {
         list.add(new TestCase(".", false));
         list.add(new TestCase("1.", false));
 
-        System.out.println("str\t\t\twzp.newsML.test\tanswer\tresult");
+        System.out.println("str\t\t\twzp.newsML.MailSample\tanswer\tresult");
         System.out.println("---------------------------------------");
         for (TestCase testCase : list) {
             final boolean test = isDecimal(testCase.str);

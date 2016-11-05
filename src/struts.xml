@@ -13,11 +13,10 @@
         <action name="captchaVerify" class="com.roc.components.captcha.CaptchaAction" method="verify"/>
     </package>
 
-    <package name="default" namespace="/" extends="struts-default">
+    <package name="login" namespace="/" extends="struts-default">
 
         <interceptors>
             <interceptor name="loginInteceptor" class="com.roc.core.user.LoginInterceptor"/>
-            <!--<interceptor name="captchaInteceptor" class="com.roc.components.captcha.CaptchaAction"/>-->
             <interceptor-stack name="loginStack">
                 <interceptor-ref name="loginInteceptor">
                     <param name="excludeMethods">index,loginPage,login</param>
@@ -28,39 +27,13 @@
 
         <global-results>
             <result name="login">/WEB-INF/blog/login/login.jsp</result>
-            <result name = "index" type="redirectAction">index</result>
+            <result name = "index" type="redirect">／index.action</result>
         </global-results>
 
-        <!--首页-->
-        <action name="index" class="indexAction">
-            <result name="success">/WEB-INF/blog/index.jsp</result>
-        </action>
-        <!--注册页-->
-        <action name="registerPage" class="registerAction" method="registerPage">
-            <result name="success">/WEB-INF/blog/login/register.jsp</result>
-        </action>
-        <!--注册-->
-        <action name="register" class="registerAction" method="register">
-            <!--<interceptor-ref name="captchaInteceptor"/>-->
-            <result name="input">/WEB-INF/blog/login/register.jsp</result>
-        </action>
-        <!--登录页-->
-        <action name="loginPage" class="loginAction" method="loginPage">
-            <result name="success">/WEB-INF/blog/login/login.jsp</result>
-        </action>
-        <!--登录-->
-        <action name="login" class="loginAction" method="login">
-            <result name="success">/WEB-INF/blog/login/login.jsp</result>
-            <result name="input">/WEB-INF/blog/login/login.jsp</result>
-        </action>
         <!--登出-->
         <action name="logout" class="loginAction" method="logout">
             <interceptor-ref name="loginStack"/>
             <result name = "success" type="redirectAction">index</result>
-        </action>
-        <!--文章查看页-->
-        <action name="blogView" class="articleAction" method="view">
-            <result name = "success">/WEB-INF/blog/article/articleView.jsp</result>
         </action>
         <!--文章编辑页-->
         <action name="blogEditPage" class="articleAction" method="editPage">
@@ -82,6 +55,44 @@
         </action>
     </package>
 
+    <package name="guest" namespace="/" extends="struts-default">
+        <global-results>
+            <result name = "index" type="redirectAction">index</result>
+        </global-results>
+        <!--首页-->
+        <action name="index" class="indexAction">
+            <result name="success">/WEB-INF/blog/index.jsp</result>
+        </action>
+        <!--关于我们页-->
+        <action name="about" class="aboutAction">
+            <result name="success">/WEB-INF/blog/about.jsp</result>
+        </action>
+        <!--联系我们页-->
+        <action name="contactPage" class="contactAction" method="contactPage">
+            <result>/WEB-INF/blog/contact.jsp</result>
+        </action>
+        <!--注册页-->
+        <action name="registerPage" class="registerAction" method="registerPage">
+            <result name="success">/WEB-INF/blog/login/register.jsp</result>
+        </action>
+        <!--注册-->
+        <action name="register" class="registerAction" method="register">
+            <result name="input">/WEB-INF/blog/login/register.jsp</result>
+        </action>
+        <!--登录页-->
+        <action name="loginPage" class="loginAction" method="loginPage">
+            <result name="success">/WEB-INF/blog/login/login.jsp</result>
+        </action>
+        <!--登录-->
+        <action name="login" class="loginAction" method="login">
+            <result name="input">/WEB-INF/blog/login/login.jsp</result>
+        </action>
+        <!--文章查看页-->
+        <action name="blogView" class="articleAction" method="view">
+            <result name = "success">/WEB-INF/blog/article/articleView.jsp</result>
+        </action>
+    </package>
+
     <package name="ajax-package" namespace="/ajax" extends="json-default">
         <interceptors>
             <interceptor name="loginInteceptor" class="com.roc.core.user.LoginInterceptor"/>
@@ -95,6 +106,15 @@
         <!--删除文章-->
         <action name="deleteArticle" class="articleAction" method="delete">
             <interceptor-ref name="loginStack"/>
+            <result type="json">
+                <param name="root">blMessage</param>
+            </result>
+        </action>
+    </package>
+
+    <package name="ajax-guest" namespace="/ajax" extends="json-default">
+        <!--提交联系我们-->
+        <action name="submitContact" class="contactAction" method="submitContact">
             <result type="json">
                 <param name="root">blMessage</param>
             </result>

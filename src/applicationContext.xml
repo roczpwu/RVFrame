@@ -26,6 +26,8 @@
         <property name="message" value="hello rocwu"/>
     </bean>
     <bean id="indexAction" class="org.roc.wim.blog.index.IndexAction" scope="prototype"/>
+    <bean id="aboutAction" class="org.roc.wim.blog.index.AboutAction" scope="prototype"/>
+    <bean id="contactAction" class="org.roc.wim.blog.index.ContactAction" scope="prototype"/>
     <bean id="loginAction" class="org.roc.wim.blog.login.LoginAction" scope="prototype"/>
     <bean id="registerAction" class="org.roc.wim.blog.login.RegisterAction" scope="prototype"/>
     <bean id="articleAction" class="org.roc.wim.blog.article.ArticleAction" scope="prototype"/>

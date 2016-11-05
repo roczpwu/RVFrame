@@ -17,7 +17,7 @@ function editArticle(article_id) {
 function deleteArticle(article_id) {
     $.ajax({
         type : "POST",  //提交方式  
-        url : "/ajax/deleteArticle.action",//路径
+        url : "/ajax/deleteArticle.action",
         data : {
             "article.fid" : article_id
         },//数据，这里使用的是Json格式进行传输  
