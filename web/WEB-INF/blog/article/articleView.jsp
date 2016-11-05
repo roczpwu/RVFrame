@@ -67,7 +67,15 @@
 <!-- Main Content -->
 <div class="container">
     <div class="row">
-        <div class="simditor-body col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id="preview">
+        <div style="text-align: right" class="col-lg-10 col-lg-offset-1 col-md-8 col-md-offset-2">
+            <span class="opera—span"> <i class="icon-star"></i>收藏</span>
+            <%if (!UserManager.isGuest() && UserManager.getUser().getFid() == article.getAuthor_id()) {%>
+            <span class="opera—span" onclick="editArticle(<%=article.getFid()%>)">编辑</span>
+            <span class="opera—span" onclick="deleteArticle(<%=article.getFid()%>)">删除</span>
+            <%}%>
+            <hr/>
+        </div>
+        <div class="simditor-body col-lg-10 col-lg-offset-1 col-md-8 col-md-offset-2" id="preview">
             <%=article.getContent()%>
         </div>
     </div>
@@ -78,6 +86,7 @@
 <jsp:include page="/WEB-INF/require/requireJs.jsp"/>
 <jsp:include page="/WEB-INF/require/requireValidatorJs.jsp"/>
 <jsp:include page="/WEB-INF/require/requireSimditorJs.jsp"/>
+<script src="/statics/blog/article/article.js"></script>
 
 </body>
 </html>

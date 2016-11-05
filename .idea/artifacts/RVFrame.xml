@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="SSH:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/SSH_war_exploded</output-path>
+  <artifact type="exploded-war" name="RVFrame">
+    <output-path>$PROJECT_DIR$/out/artifacts/RVFrame</output-path>
     <root id="root">
       <element id="javaee-facet-resources" facet="RVFrame/web/Web" />
       <element id="directory" name="WEB-INF">

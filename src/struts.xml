@@ -17,7 +17,7 @@
 
         <interceptors>
             <interceptor name="loginInteceptor" class="com.roc.core.user.LoginInterceptor"/>
-            <interceptor name="captchaInteceptor" class="com.roc.components.captcha.CaptchaAction"/>
+            <!--<interceptor name="captchaInteceptor" class="com.roc.components.captcha.CaptchaAction"/>-->
             <interceptor-stack name="loginStack">
                 <interceptor-ref name="loginInteceptor">
                     <param name="excludeMethods">index,loginPage,login</param>
@@ -41,7 +41,7 @@
         </action>
         <!--注册-->
         <action name="register" class="registerAction" method="register">
-            <interceptor-ref name="captchaInteceptor"/>
+            <!--<interceptor-ref name="captchaInteceptor"/>-->
             <result name="input">/WEB-INF/blog/login/register.jsp</result>
         </action>
         <!--登录页-->
@@ -79,6 +79,25 @@
         <!--博客图片读取(ajax)-->
         <action name="displayArticleImg" class="imgUploadAction" method="display">
             <interceptor-ref name="loginStack"/>
+        </action>
+    </package>
+
+    <package name="ajax-package" namespace="/ajax" extends="json-default">
+        <interceptors>
+            <interceptor name="loginInteceptor" class="com.roc.core.user.LoginInterceptor"/>
+            <interceptor-stack name="loginStack">
+                <interceptor-ref name="loginInteceptor">
+                    <param name="excludeMethods">index,loginPage,login</param>
+                </interceptor-ref>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <!--删除文章-->
+        <action name="deleteArticle" class="articleAction" method="delete">
+            <interceptor-ref name="loginStack"/>
+            <result type="json">
+                <param name="root">blMessage</param>
+            </result>
         </action>
     </package>
 

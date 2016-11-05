@@ -1,5 +1,6 @@
 package org.roc.wim.blog.article;
 
+import com.roc.core.BLMessage;
 import com.roc.core.base.BaseAction;
 import com.roc.core.user.UserDTO;
 import com.roc.core.user.UserManager;
@@ -18,6 +19,8 @@ public class ArticleAction extends BaseAction {
 
     private ArticleDTO article;
 
+    private BLMessage blMessage;
+
     // 查看博客文章
     public String view() throws Exception {
         if (article == null || article.getFid() == 0)
@@ -30,6 +33,8 @@ public class ArticleAction extends BaseAction {
 
     // 进入博客编辑页
     public String editPage() {
+        if (article!=null && article.getFid()>0)
+            article = (ArticleDTO) articleBL.get(article.getFid());
         return SUCCESS;
     }
 
@@ -55,6 +60,27 @@ public class ArticleAction extends BaseAction {
         return SUCCESS;
     }
 
+    // 删除文章
+    public String delete() throws Exception {
+        blMessage = new BLMessage();
+        if (article==null || (article = (ArticleDTO) articleBL.get(article.getFid())) == null) {
+            blMessage.setSuccess(false);
+            blMessage.setMessage("博客文章不存在。");
+        } else if (article.getAuthor_id() != UserManager.getUser().getFid()) {
+            blMessage.setSuccess(false);
+            blMessage.setMessage("无法删除其他人的博客。");
+        } else {
+            if (articleBL.delete(article) > 0) {
+                blMessage.setSuccess(true);
+                blMessage.setMessage("删除成功。");
+            } else {
+                blMessage.setSuccess(false);
+                blMessage.setMessage("删除失败。");
+            }
+        }
+        return SUCCESS;
+    }
+
     public ArticleBL getArticleBL() {
         return articleBL;
     }
@@ -69,5 +95,13 @@ public class ArticleAction extends BaseAction {
 
     public void setArticle(ArticleDTO article) {
         this.article = article;
+    }
+
+    public BLMessage getBlMessage() {
+        return blMessage;
+    }
+
+    public void setBlMessage(BLMessage blMessage) {
+        this.blMessage = blMessage;
     }
 }

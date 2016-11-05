@@ -105,6 +105,10 @@ public abstract class BaseBL {
         return dao.where(condition).delete();
     }
 
+    public int delete(BaseDTO dto) {
+        return dao.delete(dto);
+    }
+
     /**
      * 删除所有记录
      */
