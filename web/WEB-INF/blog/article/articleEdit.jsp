@@ -41,10 +41,11 @@
     <div class="row  col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
 
         <w:form action="/saveArticle.action" formId="blogForm" method="post">
-            <w:input name="article.main_title" label="主标题"/>
-            <w:input name="article.sub_title" label="副标题"/>
-            <w:input name="article.tags" label="标签"/>
-            <w:textarea name="article.content" label="正文" textAreaId="editor"/>
+            <w:input name="article.fid" label="" type="hidden" value="${article.fid}"/>
+            <w:input name="article.main_title" label="主标题" value="${article.main_title}"/>
+            <w:input name="article.sub_title" label="副标题" value="${article.sub_title}"/>
+            <w:input name="article.tags" label="标签" value="${article.tags}"/>
+            <w:textarea name="article.content" label="正文" textAreaId="editor">${article.content}</w:textarea>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary" name="login-button">发表</button>
             </div>

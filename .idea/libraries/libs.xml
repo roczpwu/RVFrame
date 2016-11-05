@@ -51,6 +51,8 @@
       <root url="jar://$PROJECT_DIR$/extra/jdom.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/commons-dbcp-1.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/commons-pool-1.5.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/struts2-json-plugin-2.5.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/struts2-convention-plugin-2.5.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

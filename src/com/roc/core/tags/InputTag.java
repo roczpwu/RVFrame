@@ -27,11 +27,12 @@ public class InputTag extends BaseTag {
     public int doEndTag() throws JspException {
         String inputId = NumberUtil.generateUUID();
         if (StringUtil.isEmpty(this.label))
-            this.label = this.name;
+            this.label = "";
         JspWriter out=pageContext.getOut();
         try {
             out.println("<div class=\"form-group\">");
-            out.println("\t<label class=\"control-label\" for=\""+inputId+"\">"+this.label+"</label>");
+            if (!StringUtil.isEmpty(this.label))
+                out.println("\t<label class=\"control-label\" for=\""+inputId+"\">"+this.label+"</label>");
             out.println("\t<input type=\""+this.type+"\" id=\""+inputId+"\" class=\"form-control\" name=\""+this.name+"\" value=\""+this.value+"\"/>");
             out.println("</div>");
         } catch (IOException e) {
