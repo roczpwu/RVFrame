@@ -27,7 +27,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="http://wonderoc.com/favicon.ico" type="image/x-icon">
-    <title>发表博客</title>
+    <title>${article.main_title}</title>
     <jsp:include page="/WEB-INF/require/requireCss.jsp"/>
     <jsp:include page="/WEB-INF/require/requireValidatorCss.jsp"/>
     <link href="/statics/blog/css/site.css" rel="stylesheet" type="text/css">

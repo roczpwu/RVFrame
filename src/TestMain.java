@@ -27,7 +27,7 @@ public class TestMain {
 
     private static void test() throws Exception {
         String postData = "post string";
-        String url = "http://223.3.92.84:8081/API/test.action?app_id=test_user&app_secret=test_secret";
+        String url = "http://223.3.92.84:8081/API/MailSample.action?app_id=test_user&app_secret=test_secret";
         //String url = "http://www.wonderoc.com/";
         //String url = "http://localhost:8080";
         URL obj = new URL(url);
