@@ -1,8 +1,12 @@
 package org.roc.wim.blog.login;
 
 import com.roc.core.BLMessage;
+import com.roc.core.Utils.WebUtil;
 import com.roc.core.base.BaseAction;
 import com.roc.core.user.UserManager;
+import org.apache.struts2.ServletActionContext;
+
+import javax.servlet.http.Cookie;
 
 /**
  * User: rocwu
@@ -30,6 +34,9 @@ public class LoginAction extends BaseAction {
             return "index";
         message = UserManager.login(username, password, autoLogin);
         if (message.isSuccess()) {
+            // 保持登录态，种cookie
+            if (autoLogin)
+                WebUtil.setCookie(UserManager.AUTH_CODE_KEY, (String) message.getData(), 0);
             return "index";
         }
         else {
@@ -70,6 +77,10 @@ public class LoginAction extends BaseAction {
     }
 
     public boolean isAutoLogin() {
+        return autoLogin;
+    }
+
+    public boolean getAutoLogin() {
         return autoLogin;
     }
 

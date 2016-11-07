@@ -6,6 +6,8 @@ import com.roc.core.base.BaseAction;
 import com.roc.core.user.UserBL;
 import com.roc.core.user.UserDTO;
 import com.roc.core.user.UserManager;
+import org.roc.wim.blog.person.UserInfoBL;
+import org.roc.wim.blog.person.UserInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -18,6 +20,8 @@ public class RegisterAction extends BaseAction {
 
     @Autowired
     private UserBL userBL;
+    @Autowired
+    private UserInfoBL userInfoBL;
 
     private String username;
     private String email;
@@ -50,6 +54,11 @@ public class RegisterAction extends BaseAction {
         user.setEmail(email);
         user.setAuth_key(NumberUtil.generateUUID());
         userBL.save(user);
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setUser_id(user.getFid());
+        userInfoDTO.setFace_url("/statics/blog/images/default.png");
+        userInfoDTO.setGender(2);
+        userInfoBL.save(userInfoDTO);
         UserManager.login(user.getAuth_key());
         return "index";
     }
@@ -60,6 +69,14 @@ public class RegisterAction extends BaseAction {
 
     public void setUserBL(UserBL userBL) {
         this.userBL = userBL;
+    }
+
+    public UserInfoBL getUserInfoBL() {
+        return userInfoBL;
+    }
+
+    public void setUserInfoBL(UserInfoBL userInfoBL) {
+        this.userInfoBL = userInfoBL;
     }
 
     public String getUsername() {

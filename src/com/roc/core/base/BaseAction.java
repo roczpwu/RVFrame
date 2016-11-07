@@ -21,7 +21,7 @@ public abstract class BaseAction extends ActionSupport implements ApplicationAwa
     private Map<String, Object> applicationMap      = null;
     private Map<String, Object> requestMap          = null;
     private Map<String, Object> sessionMap          = null;
-    private Map<String, String> cookieMap           = null;
+    private Map<String, String> cookieMap           = null; //只读
     private Map<String, String[]> parameterMap      = null;
     private ApplicationContext applicationContext   = null;
 

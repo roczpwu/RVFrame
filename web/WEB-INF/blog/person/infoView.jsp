@@ -37,14 +37,14 @@
                 </div>
                 <div class="col-lg-9 col-md-9">
                     <div class="row title-section">
-                        <span class="name"><%=userInfo.getName()%></span>
-                        <div class="bio ellipsis"><%=userInfo.getShort_desc()%></div>
+                        <span class="name">${userInfoDTO.name}</span>
+                        <div class="bio ellipsis">${userInfoDTO.short_desc}</div>
                     </div>
                     <div class="row item">
                         <i class="icon icon-map-marker"></i>
                         <span class="info-wrap">
-                            <span class="item"><%=userInfo.getLocation()%></span>
-                            <span class="item"><%=userInfo.getDomain()%></span>
+                            <span class="item">${userInfoDTO.location}</span>
+                            <span class="item">${userInfoDTO.domain}</span>
                             <span class="item">
                                 <%if (userInfo.getGender() == 0){%>♂<%}
                                 else if (userInfo.getGender() == 1){%>♀<%}
@@ -55,19 +55,19 @@
                     <div class="row item">
                         <i class="icon icon-briefcase"></i>
                         <span class="info-wrap">
-                            <span class="item"><%=userInfo.getCompany()%></span>
+                            <span class="item">${userInfoDTO.company}</span>
                         </span>
                     </div>
                     <div class="row item">
                         <i class="icon icon-book"></i>
                         <span class="info-wrap">
-                            <span class="item"><%=userInfo.getCollege()%></span>
+                            <span class="item">${userInfoDTO.college}</span>
                         </span>
                     </div>
                     <hr class="split-line">
                     <div class="row item">
                         <span class="info-wrap">
-                            <%=userInfo.getIntroduction()%>
+                            ${userInfoDTO.introduction}
                         </span>
                     </div>
                     <hr class="split-line">

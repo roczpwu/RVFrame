@@ -27,6 +27,7 @@
     <bean id="testAction" class="org.roc.wim.test.TestAction" scope="prototype">
         <property name="message" value="hello rocwu"/>
     </bean>
+    <bean id="loginInterceptor" class="com.roc.core.user.LoginInterceptor" scope="prototype"/>
     <bean id="indexAction" class="org.roc.wim.blog.index.IndexAction" scope="prototype"/>
     <bean id="aboutAction" class="org.roc.wim.blog.index.AboutAction" scope="prototype"/>
     <bean id="contactAction" class="org.roc.wim.blog.index.ContactAction" scope="prototype"/>

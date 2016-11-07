@@ -47,6 +47,11 @@
                 <w:form formId="loginForm" action="/login.action" method="post">
                     <w:input name="username" label="用户名" value="${username}"/>
                     <w:input name="password" label="密码" type="password" value="${password}"/>
+                    <div class="checkbox">
+                        <label>
+                            <input name="autoLogin" type="checkbox" value="true">保持登录
+                        </label>
+                    </div>
                     <% if (message != null) { %>
                     <div class="form-group has-feedback has-error">
                         <small class="help-block">${message.message}</small>

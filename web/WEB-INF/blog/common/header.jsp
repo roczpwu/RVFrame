@@ -6,18 +6,16 @@
 --%>
 <%@ page import="com.roc.core.user.UserManager" %>
 <%@ page import="com.roc.core.user.UserDTO" %>
+<%@ page import="com.roc.core.Utils.WebUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="w" uri="/roc-tags.tld"%>
 
 <%
-//    Map<String,String> list = new LinkedHashMap<>();
-//    list.put("首页","http://www.baidu.com");
-//    list.put("关于我们","http://www.baidu.com");
-//    list.put("联系我们","http://www.baidu.com");
-//    list.put("登录","http://www.baidu.com");
-//
-//    request.setAttribute("list", list);
+    if (UserManager.isGuest()) {
+        String authKey = WebUtil.getCookie(UserManager.AUTH_CODE_KEY);
+        UserManager.login(authKey);
+    }
 %>
 <%--<w:navbar className="navbar navbar-inverse navbar-custom" homeTitle="Roc & Vodka" homeUrl="#" rightNavMap="${list}"/>--%>
 
