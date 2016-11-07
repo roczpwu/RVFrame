@@ -24,6 +24,7 @@
                 <interceptor-ref name="defaultStack"/>
             </interceptor-stack>
         </interceptors>
+        <default-interceptor-ref name="loginStack"/>
 
         <global-results>
             <result name="login">/WEB-INF/blog/login/login.jsp</result>
@@ -32,26 +33,26 @@
 
         <!--登出-->
         <action name="logout" class="loginAction" method="logout">
-            <interceptor-ref name="loginStack"/>
             <result name = "success" type="redirectAction">index</result>
+        </action>
+        <!--个人资料修改页-->
+        <action name="personEditPage" class="personAction" method="editPage">
+            <result name="success">/WEB-INF/blog/person/infoEdit.jsp</result>
+        </action>
+        <!--保存个人资料-->
+        <action name="personEdit" class="personAction" method="edit">
+            <result name="success" type="redirect">/personView.action</result>
         </action>
         <!--文章编辑页-->
         <action name="blogEditPage" class="articleAction" method="editPage">
-            <interceptor-ref name="loginStack"/>
             <result name = "success">/WEB-INF/blog/article/articleEdit.jsp</result>
         </action>
         <!--发布/更新文章-->
         <action name="saveArticle" class="articleAction" method="save">
-            <interceptor-ref name="loginStack"/>
             <result name = "success" type="chain">blogView</result>
         </action>
         <!--博客图片上传(ajax)-->
         <action name="uploadArticleImg" class="imgUploadAction" method="upload">
-            <interceptor-ref name="loginStack"/>
-        </action>
-        <!--博客图片读取(ajax)-->
-        <action name="displayArticleImg" class="imgUploadAction" method="display">
-            <interceptor-ref name="loginStack"/>
         </action>
     </package>
 
@@ -87,9 +88,19 @@
         <action name="login" class="loginAction" method="login">
             <result name="input">/WEB-INF/blog/login/login.jsp</result>
         </action>
+        <!--个人主页查看-->
+        <action name="personView" class="personAction" method="view">
+            <result name="success">/WEB-INF/blog/person/infoView.jsp</result>
+        </action>
         <!--文章查看页-->
         <action name="blogView" class="articleAction" method="view">
             <result name = "success">/WEB-INF/blog/article/articleView.jsp</result>
+        </action>
+        <!--博客图片读取-->
+        <action name="displayArticleImg" class="imgUploadAction" method="display">
+        </action>
+        <!--读取照片-->
+        <action name="displayPhoto" class="uploadPhotoAction" method="display">
         </action>
     </package>
 
@@ -103,9 +114,15 @@
                 <interceptor-ref name="defaultStack"/>
             </interceptor-stack>
         </interceptors>
+        <default-interceptor-ref name="loginStack"/>
+        <!--上传照片-->
+        <action name="uploadPhoto" class="uploadPhotoAction" method="upload">
+            <result type="json">
+                <param name="root">blMessage</param>
+            </result>
+        </action>
         <!--删除文章-->
         <action name="deleteArticle" class="articleAction" method="delete">
-            <interceptor-ref name="loginStack"/>
             <result type="json">
                 <param name="root">blMessage</param>
             </result>

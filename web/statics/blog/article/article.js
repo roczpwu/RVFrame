@@ -23,7 +23,7 @@ function deleteArticle(article_id) {
         },//数据，这里使用的是Json格式进行传输  
         success : function(result) {//返回数据根据结果进行相应的处理  
             if ( result.success ) {
-                location.assign("/index.action?");
+                location.assign("/index.action");
             } else {
                 alert(result.message);
             }
