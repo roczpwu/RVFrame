@@ -1,3 +1,5 @@
+import com.roc.core.Utils.FileUtil;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -10,7 +12,7 @@ import java.net.URL;
 public class TestMain {
 
     public static void main(String[] args) throws Exception {
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 250; i++) {
             Thread thread = new Thread() {
                 @Override
                 public void run() {
@@ -26,10 +28,8 @@ public class TestMain {
     }
 
     private static void test() throws Exception {
-        String postData = "post string";
-        String url = "http://223.3.92.84:8081/API/MailSample.action?app_id=test_user&app_secret=test_secret";
-        //String url = "http://www.wonderoc.com/";
-        //String url = "http://localhost:8080";
+        String postData = FileUtil.readFile(TestMain.class.getClassLoader().getResource("").getPath()+"/input.txt");
+        String url = "http://223.3.92.84:8081/API/check.action?app_id=test_user&app_secret=test_secret&hospital=WHTJ";
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setDoOutput(true);
@@ -48,7 +48,7 @@ public class TestMain {
                     new InputStreamReader(con.getInputStream(), "utf-8"));
             String line = null;
             while (null != (line = br.readLine())) {
-                sb.append(line);
+                sb.append(line).append("\n");
             }
             br.close();
             System.out.println(Thread.currentThread().getId()+": " + sb.toString());

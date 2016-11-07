@@ -1,7 +1,10 @@
 package com.roc.components.mail;
 
 /**
- * Created by rocwu on 2016/11/5.
+ * User: rocwu
+ * Date: 2016/11/05
+ * Time: 11:00
+ * Desc: Email相关配置
  */
 public class MailConfig {
     public static final String SERVER_HOST = "smtp.163.com";
