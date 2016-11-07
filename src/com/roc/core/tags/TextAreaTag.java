@@ -27,11 +27,12 @@ public class TextAreaTag extends BaseTag {
         if (textAreaId == null)
             textAreaId = NumberUtil.generateUUID();
         if (StringUtil.isEmpty(this.label))
-            this.label = this.name;
+            this.label = "";
         JspWriter out=pageContext.getOut();
         try {
             out.println("<div class=\"form-group\">");
-            out.println("\t<label class=\"control-label\" for=\""+textAreaId+"\">"+this.label+"</label>");
+            if (!StringUtil.isEmpty(this.label))
+                out.println("\t<label class=\"control-label\" for=\""+textAreaId+"\">"+this.label+"</label>");
             out.print("\t<textarea id=\""+textAreaId+"\" class=\"form-control\" name=\""+this.name+"\" maxlength=\""+this.maxLength+"\">");
             if (this.value != null) out.print(this.value);
         } catch (IOException e) {

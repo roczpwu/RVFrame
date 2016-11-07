@@ -51,7 +51,7 @@
                         <b class="caret"></b>
                     </a>
                     <ul id="w2" class="dropdown-menu">
-                        <li><a href="#" tabindex="-1">
+                        <li><a href="/personView.action?user_id=<%=user.getFid()%>" tabindex="-1">
                             <i class="icon-home"></i> 个人主页
                         </a>
                         </li>

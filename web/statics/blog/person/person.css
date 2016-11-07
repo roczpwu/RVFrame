@@ -1,0 +1,109 @@
+body {
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    word-wrap: break-word;
+    color: #222;
+    background-color: #fff;
+}
+
+.btn {
+    font-size: 10px;
+}
+
+.split-line {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.container {
+    padding-top: 25px;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.icon {
+    margin-right: 5px;
+}
+
+.ellipsis {
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ProfileCard {
+    margin: 0 0 25px;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 #f2f4f5;
+    padding: 10px;
+}
+
+.title-section {
+    line-height: 1.1;
+    margin-bottom: 10px;
+}
+
+.title-section .tips {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #222;
+}
+
+.title-section .name {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: #222;
+}
+
+.title-section .bio {
+    padding-top: 10px;
+    font-size: 1.2em;
+}
+
+.info-wrap .item+.item {
+    border-left: 1px solid #eee;
+    margin-left: 6px;
+    padding-left: 10px;
+}
+
+.profile-nav {
+    background-color: #fcfcfc;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 2px 2px #f0f0f0 inset;
+    border-radius: 0 0 4px 4px;
+    margin: 10px -10px -10px -10px;
+}
+
+.profile-nav .item {
+    float: left;
+    padding: 12px 20px;
+    font-weight: 700;
+    color: #666;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: none;
+    line-height: 22px;
+    cursor: pointer;
+}
+
+.profile-nav .item.active {
+    background: #f7f7f7;
+}
+
+.ProfileEditCard-itemLabel {
+    width: 100px;
+    text-align: right;
+    font-weight: 400;
+    margin-right: 10px;
+}
