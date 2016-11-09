@@ -21,6 +21,7 @@ public class WebUtil {
     public static String getCookie(String name){
         HttpServletRequest request = ServletActionContext.getRequest();
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
         for(Cookie cookie : cookies)
         {
             if(cookie.getName().equals(name))
@@ -39,7 +40,8 @@ public class WebUtil {
      */
     public static void setCookie(String name, String value, int expire) {
         Cookie cookie = new Cookie(name, value);
-        if (expire > 0) cookie.setMaxAge(expire);
+        if (expire <= 0) expire = 60 * 60 * 24 *365;
+        cookie.setMaxAge(expire);
         ServletActionContext.getResponse().addCookie(cookie);
     }
 

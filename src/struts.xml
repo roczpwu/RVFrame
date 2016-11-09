@@ -13,23 +13,31 @@
         <action name="captchaVerify" class="com.roc.components.captcha.CaptchaAction" method="verify"/>
     </package>
 
-    <package name="login" namespace="/" extends="struts-default">
-
+    <package name="global-package" namespace="/" extends="struts-default">
         <interceptors>
+            <interceptor name="autoLoginInterceptor" class="com.roc.core.user.AutoLoginInterceptor"/>
             <interceptor name="loginInteceptor" class="loginInterceptor"/>
+
             <interceptor-stack name="loginStack">
-                <interceptor-ref name="loginInteceptor">
-                    <param name="excludeMethods">index,loginPage,login</param>
-                </interceptor-ref>
+                <interceptor-ref name="autoLoginInterceptor"/>
+                <interceptor-ref name="loginInteceptor"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+            <interceptor-stack name="guestStack">
+                <interceptor-ref name="autoLoginInterceptor"/>
                 <interceptor-ref name="defaultStack"/>
             </interceptor-stack>
         </interceptors>
-        <default-interceptor-ref name="loginStack"/>
 
         <global-results>
             <result name="login">/WEB-INF/blog/login/login.jsp</result>
-            <result name = "index" type="redirect">／index.action</result>
+            <result name = "index" type="redirect">/index.action</result>
         </global-results>
+    </package>
+
+    <package name="login" namespace="/" extends="global-package">
+
+        <default-interceptor-ref name="loginStack"/>
 
         <!--登出-->
         <action name="logout" class="loginAction" method="logout">
@@ -56,10 +64,8 @@
         </action>
     </package>
 
-    <package name="guest" namespace="/" extends="struts-default">
-        <global-results>
-            <result name = "index" type="redirectAction">index</result>
-        </global-results>
+    <package name="guest" namespace="/" extends="global-package">
+        <default-interceptor-ref name="guestStack"/>
         <!--首页-->
         <action name="index" class="indexAction">
             <result name="success">/WEB-INF/blog/index.jsp</result>

@@ -6,17 +6,10 @@
 --%>
 <%@ page import="com.roc.core.user.UserManager" %>
 <%@ page import="com.roc.core.user.UserDTO" %>
-<%@ page import="com.roc.core.Utils.WebUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="w" uri="/roc-tags.tld"%>
 
-<%
-    if (UserManager.isGuest()) {
-        String authKey = WebUtil.getCookie(UserManager.AUTH_CODE_KEY);
-        UserManager.login(authKey);
-    }
-%>
 <%--<w:navbar className="navbar navbar-inverse navbar-custom" homeTitle="Roc & Vodka" homeUrl="#" rightNavMap="${list}"/>--%>
 
 <nav class="navbar navbar-inverse navbar-custom "><!--navbar-fixed-top-->
