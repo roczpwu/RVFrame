@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * User: rocwu
  * Date: 2016/10/25
- * Time: 15:07 am
+ * Time: 15:07
  * Desc: 检查登录态的拦截器
  */
 public class LoginInterceptor extends MethodFilterInterceptor {
