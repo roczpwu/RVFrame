@@ -1,6 +1,7 @@
 package com.roc.core.base;
 
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;

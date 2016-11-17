@@ -2,7 +2,6 @@ package com.roc.core.base;
 
 import com.roc.core.Utils.StringUtil;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -32,7 +31,7 @@ public class BaseDTO {
         isRelatedWithDB = true;
         StringBuilder sb = new StringBuilder();
         for (String key : primaryKey) {
-            key = key.toLowerCase();
+            //key = key.toLowerCase();
             sb.append(key).append("=");
             try {
                 Method getMethod = this.getClass().getMethod("get"+ StringUtil.upperInitial(key));

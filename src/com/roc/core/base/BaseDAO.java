@@ -1,12 +1,18 @@
 package com.roc.core.base;
 
-import com.roc.core.Utils.*;
-import com.roc.core.database.*;
-import org.apache.logging.log4j.*;
+import com.roc.core.Utils.ArrayUtil;
+import com.roc.core.Utils.StringUtil;
+import com.roc.core.database.DBConnect;
+import com.roc.core.database.DBUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.lang.reflect.*;
-import java.sql.*;
-import java.util.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: rocwu
@@ -152,7 +158,7 @@ public abstract class BaseDAO {
                 sb.append(" and ");
             }
             sb = sb.delete(sb.length()-5, sb.length());
-            sb.append("limit 1");
+            sb.append(" limit 1");
             String sql = sb.toString();
             this.dbConnect = this.getDBConnect();
             ResultSet rs = this.dbConnect.executeQuery(sql);
@@ -544,7 +550,7 @@ public abstract class BaseDAO {
         for (String fieldName : fieldNames) {
             if (ArrayUtil.firstIndexOf(dto.primaryKey, fieldName) >=0 && dto.isAutoIncrease)
                 continue;
-            Method getMethod = dto.getClass().getMethod("get"+StringUtil.upperInitial(fieldName));
+            Method getMethod = dto.getClass().getMethod("get"+ StringUtil.upperInitial(fieldName));
             Object obj = getMethod.invoke(dto);
             list.add(obj);
         }
@@ -559,7 +565,7 @@ public abstract class BaseDAO {
     private void setParametersForUpdate(List<Object> list, BaseDTO dto) throws Exception {
         String[] fieldNames = FieldsMap.getFields(this);
         for (String fieldName : fieldNames) {
-            Method getMethod = dto.getClass().getMethod("get"+StringUtil.upperInitial(fieldName));
+            Method getMethod = dto.getClass().getMethod("get"+ StringUtil.upperInitial(fieldName));
             Object obj = getMethod.invoke(dto);
             list.add(obj);
         }
