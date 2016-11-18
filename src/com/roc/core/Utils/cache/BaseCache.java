@@ -1,6 +1,9 @@
 package com.roc.core.Utils.cache;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * User: rocwu
@@ -8,214 +11,73 @@ import java.util.*;
  * Time: 19:31
  * Desc: 缓存基类
  */
-public abstract class BaseCache<T> {
-    private CacheStrategy strategy = CacheStrategy.FIFO;
-    private int capacity = 10000;
-    public Map<CombineKey, T> cache;
-    private Deque<CombineKey> fifoQueue;
-    private TreeMap<Long, LinkedHashSet<CombineKey>> lruQueue;  // 最后访问时间=>key
-    private TreeMap<Long, LinkedHashSet<CombineKey>> lfuQueue;  // 访问次数=>key
-    private HashMap<CombineKey, Long> visitTime;
-    private HashMap<CombineKey, Long> visitCount;
+public abstract class BaseCache<K, V> {
 
-    public BaseCache() {
-        init();
-    }
+    private final int capacity;
+    private final Map<K, V> map;
+    private final ReadWriteLock readWriteLock;
 
-    public BaseCache(CacheStrategy cacheStrategy, int capacity) {
-        this.strategy = cacheStrategy;
+    public BaseCache(int capacity) {
         this.capacity = capacity;
-        init();
+        map = new HashMap<>();
+        readWriteLock = new ReentrantReadWriteLock();
     }
 
-    private void init() {
-        cache = new HashMap<>();
-        switch (strategy) {
-            case FIFO:
-                fifoQueue = new ArrayDeque<>();
-                break;
-            case LRU:
-                lruQueue = new TreeMap<>();
-                visitTime = new HashMap<>();
-                break;
-            case LFU:
-                lfuQueue = new TreeMap<>();
-                visitCount = new HashMap<>();
-                break;
-        }
-    }
-
-    public T get(Object... keys) {
-        CombineKey combineKey = new CombineKey(keys);
-        T result = cache.get(combineKey);
-        if (result != null){
-            updateCacheQueueAfterHint(keys);
-        } else {
-            result = getDirectly(keys);
-            if (result != null) {
-                set(result, keys);
-            }
-        }
+    /**
+     * override by subclass
+     * @param key key
+     * @return value from non-cache (e.g. db)
+     */
+    public V getDirectly(K key) {
         return null;
     }
 
-    public void set(T value, Object... keys) {
-        CombineKey combineKey = new CombineKey(keys);
-        if (cache.containsKey(combineKey))
-            updateCacheQueueAfterRomove(keys);
-        cache.put(combineKey, value);
-        if (cache.size() > capacity) {
-            CombineKey deleteKey = selectDeleteKey();
-            updateCacheQueueAfterRomove(deleteKey.keys);
-        }
-        updateCacheQueueAfterAdd(keys);
-    }
-
-    private CombineKey selectDeleteKey() {
-        CombineKey deleteKey = null;
-        switch (strategy) {
-            case FIFO:
-                while (!fifoQueue.isEmpty()) {
-                    deleteKey = fifoQueue.pollFirst();
-                    if (cache.containsKey(deleteKey)) {
-                        cache.remove(deleteKey);
-                        break;
+    public final V get(K key) {
+        readWriteLock.readLock().lock();
+        V value = null;
+        try {
+            value = map.get(key);
+            if (value == null) {
+                readWriteLock.readLock().unlock();
+                readWriteLock.writeLock().lock();
+                try {
+                    value = map.get(key);
+                    if (value == null) {
+                        value = getDirectly(key);
+                        if (value!=null) map.put(key, value);
                     }
+                    readWriteLock.readLock().lock();
+                } finally {
+                    readWriteLock.writeLock().unlock();
                 }
-                break;
-            case LRU: {
-                Map.Entry<Long, LinkedHashSet<CombineKey>> entry = lruQueue.firstEntry();
-                LinkedHashSet<CombineKey> set = entry.getValue();
-                Iterator<CombineKey> iterator = set.iterator();
-                deleteKey = iterator.next();
             }
-                break;
-            case LFU: {
-                Map.Entry<Long, LinkedHashSet<CombineKey>> entry = lfuQueue.firstEntry();
-                LinkedHashSet<CombineKey> set = entry.getValue();
-                Iterator<CombineKey> iterator = set.iterator();
-                deleteKey = iterator.next();
-            }
-                break;
+
+        } finally {
+            readWriteLock.readLock().unlock();
         }
-        return deleteKey;
+        return value;
     }
 
-    public T getDirectly(Object... keys) {
-        return null;
+    public final V set(K key, V value) {
+        readWriteLock.writeLock().lock();
+        try {
+            while (map.size() >= capacity)
+                map.remove(map.keySet().iterator().next());
+            map.put(key, value);
+        } finally {
+            readWriteLock.writeLock().unlock();
+        }
+        return value;
     }
 
-    /**
-     * 命中缓存后更新缓存队列
-     * @param keys key
-     */
-    private void updateCacheQueueAfterHint(Object... keys) {
-        switch (strategy) {
-            case FIFO:
-                break;
-            case LRU:
-                {
-                    long currentTime = System.currentTimeMillis();
-                    CombineKey combineKey = new CombineKey(keys);
-                    long preTime = visitTime.get(combineKey);
-                    LinkedHashSet<CombineKey> set = lruQueue.get(preTime);
-                    set.remove(combineKey);
-                    if (set.isEmpty()) lruQueue.remove(preTime);
-                    set = lruQueue.get(currentTime);
-                    if (set == null) {
-                        set = new LinkedHashSet<>();
-                        lruQueue.put(currentTime, set);
-                    }
-                    set.add(combineKey);
-                    visitTime.put(combineKey, currentTime);
-                }
-                break;
-            case LFU:
-                {
-                    CombineKey combineKey = new CombineKey(keys);
-                    long preCount = visitCount.get(combineKey);
-                    LinkedHashSet<CombineKey> set = lfuQueue.get(preCount);
-                    set.remove(combineKey);
-                    if (set.isEmpty()) lfuQueue.remove(preCount);
-                    long currentCount = preCount+1;
-                    set = lfuQueue.get(currentCount);
-                    if (set == null) {
-                        set = new LinkedHashSet<>();
-                        lfuQueue.put(currentCount, set);
-                    }
-                    set.add(combineKey);
-                    visitCount.put(combineKey, currentCount);
-                }
-                break;
+    public final V remove(K key) {
+        readWriteLock.writeLock().lock();
+        V removeValue = null;
+        try {
+            removeValue = map.remove(key);
+        } finally {
+            readWriteLock.writeLock().unlock();
         }
-    }
-
-    /**
-     * 新增缓存更新缓存队列
-     * @param keys key
-     */
-    private void updateCacheQueueAfterAdd(Object... keys) {
-        switch (strategy) {
-            case FIFO:
-                fifoQueue.addLast(new CombineKey(keys));
-                break;
-            case LRU:
-            {
-                long currentTime = System.currentTimeMillis();
-                CombineKey combineKey = new CombineKey(keys);
-                LinkedHashSet<CombineKey> set = lruQueue.get(currentTime);
-                if (set == null) {
-                    set = new LinkedHashSet<>();
-                    lruQueue.put(currentTime, set);
-                }
-                set.add(combineKey);
-                visitTime.put(combineKey, currentTime);
-            }
-            break;
-            case LFU:
-            {
-                CombineKey combineKey = new CombineKey(keys);
-                LinkedHashSet<CombineKey> set = lfuQueue.get(1L);
-                if (set == null) {
-                    set = new LinkedHashSet<>();
-                    lfuQueue.put(1L, set);
-                }
-                set.add(combineKey);
-                visitCount.put(combineKey, 1L);
-            }
-            break;
-        }
-    }
-
-    /**
-     * 新增缓存更新缓存队列
-     * @param keys key
-     */
-    private void updateCacheQueueAfterRomove(Object... keys) {
-        switch (strategy) {
-            case FIFO:
-                //暂不处理,
-                break;
-            case LRU:
-                {
-                    CombineKey combineKey = new CombineKey(keys);
-                    long preTime = visitTime.get(combineKey);
-                    LinkedHashSet<CombineKey> set = lruQueue.get(preTime);
-                    set.remove(combineKey);
-                    if (set.isEmpty()) lruQueue.remove(preTime);
-                    visitTime.remove(combineKey);
-                }
-                break;
-            case LFU:
-                {
-                    CombineKey combineKey = new CombineKey(keys);
-                    long preCount = visitCount.get(combineKey);
-                    LinkedHashSet<CombineKey> set = lfuQueue.get(preCount);
-                    set.remove(combineKey);
-                    if (set.isEmpty()) lfuQueue.remove(preCount);
-                    visitCount.remove(combineKey);
-                }
-                break;
-        }
+        return removeValue;
     }
 }
