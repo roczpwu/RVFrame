@@ -28,32 +28,15 @@ public abstract class BaseCache<K, V> {
      * @param key key
      * @return value from non-cache (e.g. db)
      */
-    public V getDirectly(K key) {
-        return null;
-    }
+    protected abstract V getDirectly(K key);
 
     public final V get(K key) {
         readWriteLock.readLock().lock();
-        V value = null;
-        try {
-            value = map.get(key);
-            if (value == null) {
-                readWriteLock.readLock().unlock();
-                readWriteLock.writeLock().lock();
-                try {
-                    value = map.get(key);
-                    if (value == null) {
-                        value = getDirectly(key);
-                        if (value!=null) map.put(key, value);
-                    }
-                    readWriteLock.readLock().lock();
-                } finally {
-                    readWriteLock.writeLock().unlock();
-                }
-            }
-
-        } finally {
-            readWriteLock.readLock().unlock();
+        V value = map.get(key);
+        readWriteLock.readLock().unlock();
+        if (value == null) {
+            value = getDirectly(key);
+            if (value != null) set(key, value);
         }
         return value;
     }
@@ -61,9 +44,15 @@ public abstract class BaseCache<K, V> {
     public final V set(K key, V value) {
         readWriteLock.writeLock().lock();
         try {
-            while (map.size() >= capacity)
-                map.remove(map.keySet().iterator().next());
-            map.put(key, value);
+            if (map.containsKey(key)) {
+                map.put(key,value);
+            }
+            else {
+                //TODO: 不命中的策略待完善
+                while (map.size() >= capacity)
+                    map.remove(map.keySet().iterator().next());
+                map.put(key, value);
+            }
         } finally {
             readWriteLock.writeLock().unlock();
         }
