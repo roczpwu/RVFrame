@@ -408,7 +408,7 @@ public abstract class BaseDAO {
                 }
                 if (dtoList.get(i).getIsRelatedWithDB()) {
                     PreparedStatement psForUpdate = dbConnect.prepareStatement(this.getUpdateSql(dtoList.get(i)));
-                    affectRowNum += dbConnect.update(ps, paramList.get(i));
+                    affectRowNum += dbConnect.update(psForUpdate, paramList.get(i));
                 } else {
                     affectRowNum += dbConnect.update(ps, paramList.get(i));
                     if (dtoList.get(i).isAutoIncrease) {
