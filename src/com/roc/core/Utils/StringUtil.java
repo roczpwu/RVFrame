@@ -24,7 +24,9 @@ public class StringUtil {
         byte [] tmp = md5.digest();
         StringBuilder sb = new StringBuilder();
         for (byte b:tmp) {
-            sb.append(Integer.toHexString(b&0xff));
+            String hexStr = Integer.toHexString(b&0xff);
+            if (hexStr.length() < 2) sb.append("0");
+            sb.append(hexStr);
         }
         return sb.toString();
     }

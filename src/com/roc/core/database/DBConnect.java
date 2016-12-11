@@ -1,5 +1,8 @@
 package com.roc.core.database;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,6 +22,7 @@ public class DBConnect {
     // 是否批量操作
     protected boolean isBatch = false;
 
+    private Logger logger = LogManager.getLogger(this.getClass().getName());
 
     /**
      * constructor
@@ -57,7 +61,7 @@ public class DBConnect {
             if (conn == null) {
                 conn = getConnection();
             }
-
+            logger.debug("[execute query] " + sql);
             PreparedStatement preStatement = conn.prepareStatement(sql);
             ResultSet rs = preStatement.executeQuery();
             // preStatement.close();
@@ -75,7 +79,7 @@ public class DBConnect {
         if (conn == null) {
             conn = getConnection();
         }
-
+        logger.debug("[execute query] " + sql);
         PreparedStatement preStatement = conn.prepareStatement(sql);
         if (list != null) {
             int size = list.size();
@@ -103,16 +107,17 @@ public class DBConnect {
         }
 
         try {
-        PreparedStatement preStatement = conn.prepareStatement(sql);
-        if (objects != null) {
-            int size = objects.length;
-            for (int i = 0; i < size; i++) {
-                setParameter(preStatement, i + 1, objects[i]);
+            logger.debug("[execute query] " + sql);
+            PreparedStatement preStatement = conn.prepareStatement(sql);
+            if (objects != null) {
+                int size = objects.length;
+                for (int i = 0; i < size; i++) {
+                    setParameter(preStatement, i + 1, objects[i]);
+                }
             }
-        }
-        ResultSet rs = preStatement.executeQuery();
-        // preStatement.close();
-        return rs;
+            ResultSet rs = preStatement.executeQuery();
+            // preStatement.close();
+            return rs;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -131,7 +136,7 @@ public class DBConnect {
         if (conn == null) {
             conn = getConnection();
         }
-
+        logger.debug("[execute query] " + sql);
         PreparedStatement preStatement = conn.prepareStatement(sql);
         if (params != null) {
             int size = params.length;
@@ -156,7 +161,7 @@ public class DBConnect {
         if (conn == null) {
             conn = getConnection();
         }
-
+        logger.debug("[execute query] " + sql);
         PreparedStatement preStatement = conn.prepareStatement(sql);
         setParameter(preStatement, 1, param);
         ResultSet rs = preStatement.executeQuery();
@@ -178,7 +183,7 @@ public class DBConnect {
         if (originalAutoCommit) {
             this.setAutoCommit(false);
         }
-
+        logger.debug("[execute update] " + sql);
         int effectedRows = update(sql, (List) null);
         if (effectedRows > maxEffectedRows) {
             this.rollback();
@@ -214,6 +219,7 @@ public class DBConnect {
         if (conn == null) {
             conn = getConnection();
         }
+        logger.debug("[execute update] " + sql);
         PreparedStatement preStatement = conn.prepareStatement(sql);
 
         if (paramList != null) {
@@ -242,6 +248,7 @@ public class DBConnect {
         if (conn == null) {
             conn = getConnection();
         }
+        logger.debug("[execute update] " + sql);
         PreparedStatement preStatement = conn.prepareStatement(sql);
 
         if (params != null && params.length > 0) {

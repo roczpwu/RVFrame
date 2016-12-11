@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+    <Properties>
+        <!-- 配置日志文件输出目录 -->
+        <Property name="LOG_HOME">/tmp/logs/rvframe</Property>
+    </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36}:%L - %msg%n" />
         </Console>
+        <File name="log" fileName="${LOG_HOME}/crawler.log" append="true">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36}:%L - %msg%n" />
+        </File>
+        <RollingFile name="RollingFile" fileName="${LOG_HOME}/crawler_roll.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/rv-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+            <SizeBasedTriggeringPolicy size="10 MB" />
+        </RollingFile>
     </Appenders>
     <Loggers>
         <Root level="debug">
             <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
         </Root>
+        <Logger name="com.opensymphony" level="off">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Logger>
+        <Logger name="org.apache.struts2" level="off">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Logger>
     </Loggers>
 </Configuration>
 
-<!--日志级别 DEBUG < INFO < WARN < ERROR < FATAL-->
+<!--日志级别 TRACE < DEBUG < INFO < WARN < ERROR < FATAL-->
