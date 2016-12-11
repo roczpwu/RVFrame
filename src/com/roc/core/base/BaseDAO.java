@@ -475,7 +475,7 @@ public abstract class BaseDAO {
         StringBuilder sb = new StringBuilder();
         sb.append("delete from ");
         sb.append(this.dbName).append(".").append(this.tableName).append(" ");
-        if (StringUtil.isEmpty(this.condition)) {
+        if (!StringUtil.isEmpty(this.condition)) {
             sb.append("where ").append(this.condition);
         }
         return sb.toString();
