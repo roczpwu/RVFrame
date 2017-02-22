@@ -8,6 +8,7 @@ import org.apache.logging.log4j.*;
  * Time: 1:55
  * Desc: 异步ajax方法类
  */
+@Deprecated
 public class AjaxInterface {
 
     protected Logger logger = LogManager.getLogger(this.getClass().getName());

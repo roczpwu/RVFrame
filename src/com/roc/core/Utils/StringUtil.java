@@ -1305,4 +1305,33 @@ public class StringUtil {
         str = str.replaceAll("'", "\\\\'");
         return str;
     }
+
+    /**
+     * 计算字符串的编辑距离
+     * @param word1 字符串1
+     * @param word2 字符串2
+     * @return 编辑距离
+     */
+    public static int getEditDistance(String word1, String word2) {
+        int n1 = word1 == null ? 0 : word1.length();
+        int n2 = word2 == null ? 0 : word2.length();
+        if (n1 == 0 || n2 == 0) return Math.max(n1, n2);
+        int[][] dp = new int[n1+1][n2+1];
+        for (int i = 0; i <= n1; i++) {
+            for (int j = 0; j <= n2; j++) {
+                if (i == 0 || j == 0)
+                    dp[i][j] = Math.max(i, j);
+                else {
+                    dp[i][j] = Integer.MAX_VALUE;
+                    if (word1.charAt(i-1) == word2.charAt(j-1))
+                        dp[i][j] = dp[i-1][j-1];
+                    else
+                        dp[i][j] = dp[i-1][j-1]+1;
+                    dp[i][j] = Math.min(dp[i-1][j]+1, dp[i][j]);
+                    dp[i][j] = Math.min(dp[i][j-1]+1, dp[i][j]);
+                }
+            }
+        }
+        return dp[n1][n2];
+    }
 }
