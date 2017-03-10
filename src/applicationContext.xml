@@ -16,12 +16,12 @@
     <!--DAO bean-->
     <bean id="userDAO" class="com.roc.core.user.UserDAO"/>
     <bean id="articleDAO" class="org.roc.wim.blog.article.ArticleDAO"/>
-    <bean id="userInfoDAO" class="org.roc.wim.blog.person.UserInfoDAO"/>
+    <bean id="userInfoDAO" class="org.roc.wim.blog.demoBean.UserInfoDAO"/>
 
     <!--BL bean-->
     <bean id="userBL" class="com.roc.core.user.UserBL"/>
     <bean id="articleBL" class="org.roc.wim.blog.article.ArticleBL"/>
-    <bean id="userInfoBL" class="org.roc.wim.blog.person.UserInfoBL"/>
+    <bean id="userInfoBL" class="org.roc.wim.blog.demoBean.UserInfoBL"/>
 
     <!--action bean-->
     <bean id="testAction" class="org.roc.wim.test.TestAction" scope="prototype">
@@ -33,9 +33,9 @@
     <bean id="contactAction" class="org.roc.wim.blog.index.ContactAction" scope="prototype"/>
     <bean id="loginAction" class="org.roc.wim.blog.login.LoginAction" scope="prototype"/>
     <bean id="registerAction" class="org.roc.wim.blog.login.RegisterAction" scope="prototype"/>
-    <bean id="personAction" class="org.roc.wim.blog.person.PersonAction" scope="prototype"/>
+    <bean id="personAction" class="org.roc.wim.blog.demoBean.PersonAction" scope="prototype"/>
     <bean id="articleAction" class="org.roc.wim.blog.article.ArticleAction" scope="prototype"/>
     <bean id="imgUploadAction" class="org.roc.wim.blog.article.ImgUploadAction" scope="prototype"/>
-    <bean id="uploadPhotoAction" class="org.roc.wim.blog.person.UploadPhotoAction" scope="prototype"/>
+    <bean id="uploadPhotoAction" class="org.roc.wim.blog.demoBean.UploadPhotoAction" scope="prototype"/>
 
 </beans>

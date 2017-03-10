@@ -45,7 +45,7 @@
         </action>
         <!--个人资料修改页-->
         <action name="personEditPage" class="personAction" method="editPage">
-            <result name="success">/WEB-INF/blog/person/infoEdit.jsp</result>
+            <result name="success">/WEB-INF/blog/demoBean/infoEdit.jsp</result>
         </action>
         <!--保存个人资料-->
         <action name="personEdit" class="personAction" method="edit">
@@ -96,7 +96,7 @@
         </action>
         <!--个人主页查看-->
         <action name="personView" class="personAction" method="view">
-            <result name="success">/WEB-INF/blog/person/infoView.jsp</result>
+            <result name="success">/WEB-INF/blog/demoBean/infoView.jsp</result>
         </action>
         <!--文章查看页-->
         <action name="blogView" class="articleAction" method="view">

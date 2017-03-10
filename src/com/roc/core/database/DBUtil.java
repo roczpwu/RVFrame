@@ -2393,7 +2393,7 @@ public class DBUtil {
                 continue;
             }
             final String fieldType = field.getType().getName();
-            Object fieldValue = null;
+            Object fieldValue;
             if (fieldType.equals("java.lang.String")) {
                 fieldValue = rs.getString(i);
             } else if (fieldType.equals("int")) {
@@ -2410,6 +2410,7 @@ public class DBUtil {
                 } else {
                     c = s.charAt(0);
                 }
+                fieldValue = c;
             } else {
                 fieldValue = rs.getObject(i);
             }
