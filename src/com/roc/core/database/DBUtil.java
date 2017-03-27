@@ -1,7 +1,9 @@
 package com.roc.core.database;
 
 import com.roc.core.Utils.*;
-import org.apache.logging.log4j.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -19,8 +21,8 @@ import java.util.*;
  */
 public class DBUtil {
     public static boolean isDebug = true;
-    private static Logger logger = LogManager.getLogger(DBUtil.class.getName());
 
+    private static Logger logger = LogManager.getLogger(DBUtil.class);
 
     /**
      * 是否存在查询结果
@@ -2385,7 +2387,7 @@ public class DBUtil {
         int columncount = metaData.getColumnCount();
         for (int i = 1; i <= columncount; i++) {
             String fieldName = metaData.getColumnName(i);
-            fieldName = fieldName.toLowerCase();
+            //fieldName = fieldName.toLowerCase();
             Field field = null;
             try {
                 field = obj.getClass().getDeclaredField(fieldName);
@@ -2400,6 +2402,8 @@ public class DBUtil {
                 fieldValue = rs.getInt(i);
             } else if (fieldType.equals("double")) {
                 fieldValue = rs.getDouble(i);
+            } else if (fieldType.equals("float")) {
+                fieldValue = rs.getFloat(i);
             } else if (fieldType.equals("boolean")) {
                 fieldValue = rs.getBoolean(i);
             } else if (fieldType.equals("char")) {
