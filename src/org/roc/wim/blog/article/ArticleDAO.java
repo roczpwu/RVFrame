@@ -1,7 +1,7 @@
 package org.roc.wim.blog.article;
 
 import com.roc.core.base.BaseDAO;
-import com.roc.core.user.UserDTO;
+import org.springframework.stereotype.Repository;
 
 /**
  * User: rocwu
@@ -9,6 +9,7 @@ import com.roc.core.user.UserDTO;
  * Time: 23:23
  * Desc: 博客文章表数据库操作层
  */
+@Repository
 public class ArticleDAO extends BaseDAO {
 
     public ArticleDAO() {

@@ -2,6 +2,7 @@ package com.roc.core.user;
 
 import com.roc.core.base.BaseBL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
@@ -11,6 +12,7 @@ import javax.annotation.PostConstruct;
  * Time: 11:15 am
  * Desc: 用户对象业务逻辑层
  */
+@Service
 public class UserBL extends BaseBL {
 
     @Autowired

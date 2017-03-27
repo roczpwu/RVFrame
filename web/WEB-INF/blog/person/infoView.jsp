@@ -1,5 +1,5 @@
 <%@ page import="com.roc.core.user.UserDTO" %>
-<%@ page import="org.roc.wim.blog.person.UserInfoDTO" %>
+<%@ page import="org.roc.wim.blog.demoBean.UserInfoDTO" %>
 <%@ page import="com.roc.core.user.UserManager" %><%--
   个人主页展示页.
   User: rocwu
@@ -21,7 +21,7 @@
     <title>个人主页</title>
     <jsp:include page="/WEB-INF/require/requireCss.jsp"/>
     <link href="/statics/blog/css/site.css" rel="stylesheet" type="text/css">
-    <link href="/statics/blog/person/person.css" rel="stylesheet" type="text/css">
+    <link href="/statics/blog/demoBean/demoBean.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -101,7 +101,7 @@
 
 <jsp:include page="/WEB-INF/blog/common/footer.jsp"/>
 <jsp:include page="/WEB-INF/require/requireJs.jsp"/>
-<script src="/statics/blog/person/person.js"></script>
+<script src="/statics/blog/demoBean/demoBean.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.roc.core.user;
 
 import com.roc.core.base.BaseDAO;
+import org.springframework.stereotype.Repository;
 
 /**
  * User: rocwu
@@ -8,6 +9,7 @@ import com.roc.core.base.BaseDAO;
  * Time: 11:15 am
  * Desc: 用户表数据库操作层
  */
+@Repository
 public class UserDAO extends BaseDAO {
 
     public UserDAO() {

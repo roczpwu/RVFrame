@@ -2,6 +2,7 @@ package org.roc.wim.blog.article;
 
 import com.roc.core.base.BaseBL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * Time: 23:25
  * Desc: 博客文章对象业务逻辑层
  */
+@Service
 public class ArticleBL extends BaseBL {
 
     @Autowired
