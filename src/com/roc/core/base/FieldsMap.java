@@ -37,7 +37,7 @@ public class FieldsMap {
             int count = metaData.getColumnCount();
             List<String> fieldList = new ArrayList<>();
             for (int i = 0; i < count; i++) {
-                String fieldName = metaData.getColumnName(i+1).toLowerCase();
+                String fieldName = metaData.getColumnName(i+1);
                 try {
                     Field dtoTypeField = BaseDAO.class.getDeclaredField("dtoType");
                     dtoTypeField.setAccessible(true);
